@@ -1,0 +1,99 @@
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* Aligner verticalement les éléments au centre si nécessaire */
+    padding: 10px;
+    /* Ajoutez un espace intérieur si nécessaire */
+}
+
+/* Style pour le bouton du menu à afficher sur les écrans plus petits */
+#menu-toggle {
+    display: none;
+    /* Caché par défaut */
+}
+
+/* Style pour le menu de navigation */
+@media screen and (max-width: 1200px) {
+    .nav {
+        display: none;
+        /* Caché par défaut sur les écrans plus petits */
+        flex-direction: column;
+        /* Afficher les liens en colonne */
+        align-items: flex-end;
+        /* Aligner à droite */
+    }
+
+    #menu-toggle {
+        display: block;
+        /* Affiché sur les écrans plus petits */
+    }
+}
+
+.titre {
+    margin: 0;
+    font-size: 50px;
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.menu-container {
+    position: relative;
+    /* Position relative pour positionner le menu déroulant */
+}
+
+.nav {
+    display: none;
+    flex-direction: column;
+    float: right;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #fff;
+    /* Fond blanc pour le menu déroulant */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    /* Ombre légère */
+}
+
+.nav.active {
+    display: flex;
+}
+
+/* Ajoutez une media query pour annuler les styles du menu au-delà de 1200px */
+@media screen and (min-width: 1200px) {
+    .menu-container {
+        position: static;
+        /* Annulez la position relative pour le menu au-delà de 1200px */
+    }
+
+    .nav {
+        display: flex;
+        position: static;
+        /* Annulez la position absolue pour le menu au-delà de 1200px */
+        flex-direction: row;
+        /* Affichez les liens en ligne */
+        background-color: transparent;
+        /* Fond transparent pour le menu au-delà de 1200px */
+        box-shadow: none;
+        /* Aucune ombre pour le menu au-delà de 1200px */
+    }
+}
+
+.lien {
+    color: #000000;
+    text-decoration: none;
+    padding: 14px 16px;
+    font-size: 17px;
+}
+
+body {
+    margin-top: 50px;
+    margin-left: 50px;
+    margin-right: 50px;
+    margin-bottom: 50px;
+
+}
