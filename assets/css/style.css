@@ -13,6 +13,7 @@ header {
     /* Caché par défaut */
 }
 
+
 /* Style pour le menu de navigation */
 @media screen and (max-width: 1200px) {
     .nav {
@@ -30,20 +31,21 @@ header {
     }
 }
 
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+
 .titre {
     margin: 0;
     font-size: 50px;
 }
 
-.header-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
 .menu-container {
-    position: relative;
-    /* Position relative pour positionner le menu déroulant */
+    display: flex;
+    align-items: center;
 }
 
 .nav {
@@ -54,33 +56,31 @@ header {
     top: 100%;
     left: 0;
     background-color: #fff;
-    /* Fond blanc pour le menu déroulant */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    /* Ombre légère */
 }
 
-.nav.active {
-    display: flex;
-}
+@media screen and (max-width: 1200px) {
+    .titre {
+        text-align: left;
+        margin-right: auto;
+    }
 
-/* Ajoutez une media query pour annuler les styles du menu au-delà de 1200px */
-@media screen and (min-width: 1200px) {
     .menu-container {
-        position: static;
-        /* Annulez la position relative pour le menu au-delà de 1200px */
+        flex-direction: row-reverse;
     }
+}
 
-    .nav {
-        display: flex;
-        position: static;
-        /* Annulez la position absolue pour le menu au-delà de 1200px */
-        flex-direction: row;
-        /* Affichez les liens en ligne */
-        background-color: transparent;
-        /* Fond transparent pour le menu au-delà de 1200px */
-        box-shadow: none;
-        /* Aucune ombre pour le menu au-delà de 1200px */
-    }
+.nav {
+    display: flex;
+    position: static;
+    /* Annulez la position absolue pour le menu au-delà de 1200px */
+    flex-direction: row;
+    /* Affichez les liens en ligne */
+    background-color: transparent;
+    /* Fond transparent pour le menu au-delà de 1200px */
+    box-shadow: none;
+    /* Aucune ombre pour le menu au-delà de 1200px */
+}
 }
 
 .lien {
