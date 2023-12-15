@@ -5,36 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ASMA</title>
-    <link href="assets/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="./assets/css/style.css">
 </head>
 
 <body>
     <header>
-        <h1 class="titre">AS Monts D'Andaine</h1>
-        <div class="topnav" id="myTopnav">
-
-            <a href="index.html" class="active">Accueil</a>
-            <a href="pages/actualites.html" class="lien">Actualités</a>
-            <a href="pages/classement_calendrier.html" class="lien">Classement/Calendrier</a>
-            <a href="pages/contact.html" class="lien">Contact</a>
-            <a href="pages/espace_joueurs.html" class="lien">Espace joueurs</a>
-            <a href="javascript:void(0);" class="icon" onclick="myFunction()">
-                <i class="fa fa-bars"></i>
-            </a>
-        </div>
-        </div>
-        <script>/* Toggle between adding and removing the "responsive" class to topnav when the user clicks on the icon */
-            function myFunction() {
-                var x = document.getElementById("myTopnav");
-                if (x.className === "topnav") {
-                    x.className += " responsive";
-                } else {
-                    x.className = "topnav";
-                }
-            }</script>
-
+        <div id="header-container"></div>
     </header>
-
 
     <h2>Bienvenue sur le site de l'AS Monts D'Andaine</h2>
     <p>Ceci est le début de notre site web.</p>
@@ -46,6 +23,33 @@
         <p>Site web réalisé par <a href="https://www.linkedin.com/in/adrien-graindorge-30aa97249" target="_blank">Adrien
                 Graindorge</a></p>
     </footer>
+    <script>
+        // Charger le contenu commun
+        fetch('header.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('header-container').innerHTML = html;
+
+                // Initialiser le bouton à l'intérieur de la promesse
+                let navigation = document.querySelector('.navigation');
+                let toggleButton = document.querySelector('.toggle');
+                let hasClicked = false;
+
+                if (navigation && toggleButton) {
+                    toggleButton.addEventListener('click', function () {
+                        if (!hasClicked) {
+                            // Premier clic, changer le statut hasClicked
+                            hasClicked = true;
+                        } else {
+                            // Toggle l'état actif
+                            toggleButton.classList.toggle('active');
+                            navigation.classList.toggle('active');
+                        }
+                    });
+                }
+            });
+
+    </script>
 
 </body>
 
