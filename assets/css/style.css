@@ -6,6 +6,18 @@
 }
 
 body {
-    min-height: 100vh;
-    background-color: #f9f9f9;
+    background-image: url('../img/foot.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    /* Ajoutez d'autres propriétés si nécessaire */
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    /* 100% de la largeur de la fenêtre */
+    height: 100vh;
+    /* 100% de la hauteur de la fenêtre */
+
+    font-family: 'Votre Police', sans-serif;
+    color: #ffffff;
 }
