@@ -136,7 +136,7 @@ ul li {
     transition: 0.5s;
     visibility: hidden;
     opacity: 0;
-    transform: translateX(350px);
+    transform: translateX(-150px);
     transition-delay: calc(0.1s * var(--i));
 }
 
