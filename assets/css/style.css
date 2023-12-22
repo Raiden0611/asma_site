@@ -107,7 +107,7 @@ body {
 /*  social links */
 .lien-classement {
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;
     align-items: center;
     flex-direction: row;
     margin-top: 20px;
@@ -237,5 +237,57 @@ body {
         align-items: center;
         flex-direction: column;
         margin-top: 20px;
+    }
+}
+
+@media screen and (min-width: 1200px) {
+    .container-classement-coupe {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        flex-direction: row;
+        overflow: hidden;
+    }
+
+    .icon-classement {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        text-decoration: none;
+        height: 100px;
+        width: 250px;
+        background-color: rgba(255, 255, 255, 0.2);
+        margin: 0 10px 10px 0;
+        text-align: center;
+        line-height: 40px;
+        border-radius: 50%;
+        color: #ffffff;
+        transition: all 0.5s ease;
+        padding: 20px;
+    }
+
+    .icon-classement .titre-classement {
+        font-size: 15px;
+    }
+
+    .fa-solid,
+    .fas {
+        font-weight: 600;
+    }
+
+    .lien-classement {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        flex-direction: row;
+        margin-top: 40px;
+
+    }
+
+    .container-classement-coupe2 {
+        height: 400px;
+        width: 500px;
+        padding-top: 30px;
     }
 }
