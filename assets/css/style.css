@@ -109,7 +109,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
+    flex-direction: row;
     margin-top: 20px;
 }
 
@@ -119,8 +119,8 @@ body {
     justify-content: center;
     align-items: center;
     text-decoration: none;
-    height: 70px;
-    width: 300px;
+    height: 80px;
+    width: 380px;
     background-color: rgba(255, 255, 255, 0.2);
     margin: 0 10px 10px 0;
     text-align: center;
@@ -143,4 +143,99 @@ body {
 .icon-classement i {
     font-size: 26px;
     margin-right: 10px;
+}
+
+/*  TITRE H2 */
+
+.container-titre-h2 {
+    position: relative;
+    height: 50px;
+    /* Ajustez la hauteur selon vos besoins */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 50px;
+    padding-bottom: 30px;
+}
+
+.titre-h2 {
+    background-color: rgba(255, 255, 255, 1);
+    width: 200px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+    color: #DC143C;
+    border-radius: 20px;
+}
+
+@media screen and (max-width: 750px) {
+    .icon-classement {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-decoration: none;
+        height: 100px;
+        width: 300px;
+        background-color: rgba(255, 255, 255, 0.2);
+        margin: 0 10px 10px 0;
+        text-align: center;
+        line-height: 40px;
+        border-radius: 50%;
+        color: #ffffff;
+        transition: all 0.5s ease;
+        padding: 20px;
+    }
+
+    .icon-classement .titre-classement {
+        font-size: 15px;
+    }
+
+    .fa-solid,
+    .fas {
+        font-weight: 600;
+    }
+}
+
+@media screen and (max-width: 570px) {
+    .icon-classement {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        text-decoration: none;
+        height: 100px;
+        width: 250px;
+        background-color: rgba(255, 255, 255, 0.2);
+        margin: 0 10px 10px 0;
+        text-align: center;
+        line-height: 40px;
+        border-radius: 50%;
+        color: #ffffff;
+        transition: all 0.5s ease;
+        padding: 20px;
+    }
+
+    .icon-classement .titre-classement {
+        font-size: 15px;
+    }
+
+    .fa-solid,
+    .fas {
+        font-weight: 600;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .lien-classement {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        margin-top: 20px;
+    }
 }
