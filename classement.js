@@ -1,9 +1,9 @@
 const puppeteer = require('puppeteer');
 
-async function scrapAndSaveData() {
+async function scrapAndSaveData(link) {
     const browser = await puppeteer.launch({ headless: "new" });
     const page = await browser.newPage();
-    await page.goto("https://footorne.fff.fr/recherche-clubs?subtab=ranking&tab=resultats&scl=192049&beginWeek=2024-01-08&endWeek=2024-01-14&competition=414009&stage=1&group=3&label=Départemental%204");
+    await page.goto(link);
 
     const equipeData = await page.evaluate(() => {
         const teamData = [];

@@ -18,9 +18,16 @@ server.get('/contact', (req, res) => {
 });
 
 
+
 server.get('/classement', async (req, res) => {
   try {
-    const equipeData = await scrapAndSaveData();
+    /* equipe b */
+    link = "https://footorne.fff.fr/recherche-clubs?subtab=ranking&tab=resultats&scl=192049&competition=414009&stage=1&group=3&label=Départemental%204"
+
+    /* equipe a */
+    /* link = "https://footorne.fff.fr/recherche-clubs?subtab=ranking&tab=resultats&scl=192049&competition=414007&stage=1&group=2&label=Départemental%203" */
+
+    const equipeData = await scrapAndSaveData(link);
 
     // Chargez le fichier HTML
     const filePath = path.join(__dirname, 'public', 'classement_calendrier.html');
