@@ -1,7 +1,6 @@
 const express = require('express'); // Importer le module 'express'
 const path = require('path');  // Importer le module 'path'
 const fs = require('fs');  // Importer le module 'fs'
-const { scrapAndSaveData, generateTableRows } = require('./classement'); // Importer les fonctions du fichier classement.js
 
 
 const server = express();
@@ -20,31 +19,10 @@ server.get('/contact', (req, res) => {
 
 
 server.get('/classement', async (req, res) => {
-  try {
-    /* equipe b */
-    link = "https://footorne.fff.fr/recherche-clubs?subtab=ranking&tab=resultats&scl=192049&competition=414009&stage=1&group=3&label=Départemental%204"
-
-    /* equipe a */
-    /* link = "https://footorne.fff.fr/recherche-clubs?subtab=ranking&tab=resultats&scl=192049&competition=414007&stage=1&group=2&label=Départemental%203" */
-
-    const equipeData = await scrapAndSaveData(link);
-
-    // Chargez le fichier HTML
-    const filePath = path.join(__dirname, 'public', 'classement_calendrier.html');
-    let htmlContent = fs.readFileSync(filePath, 'utf-8');
-
-    // Ajoutez les données au tableau dans le fichier HTML
-    htmlContent = htmlContent.replace('<tbody id="teamTableBody"></tbody>', `<tbody id="teamTableBody">${generateTableRows(equipeData)}</tbody>`);
-
-    // Envoie le fichier HTML mis à jour en tant que réponse
-    res.send(htmlContent);
-  } catch (error) {
-    console.error('Erreur lors du scraping et de la mise à jour du fichier HTML :', error);
-    res.status(500).send(`Erreur interne du serveur : ${error.message}`);
-  }
+  // Utilisez path.join pour obtenir le chemin complet du fichier
+  const filePath = path.join(__dirname, 'public', 'classement_calendrier.html');
+  res.sendFile(filePath);
 });
-
-
 
 server.get('/', (req, res) => {
   // Utilisez path.join pour obtenir le chemin complet du fichier

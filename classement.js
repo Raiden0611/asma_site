@@ -1,4 +1,21 @@
 const puppeteer = require('puppeteer');
+const mysql = require('mysql');
+require('dotenv').config();
+
+const conn = mysql.createConnection({
+    host: process.env.MYSQL_HOST,
+    user: process.env.MYSQL_USER,
+    password: process.env.MYSQL_PWD,
+    database: process.env.MYSQL_DB,
+});
+
+conn.connect((err) => {
+    if (err) {
+        console.error('Erreur de connexion à la base de données :', err);
+        throw err;
+    }
+    console.log('Connecté à la base de données MySQL');
+});
 
 async function scrapAndSaveData(link) {
     const browser = await puppeteer.launch({ headless: "new" });
@@ -7,6 +24,14 @@ async function scrapAndSaveData(link) {
 
     const equipeData = await page.evaluate(() => {
         const teamData = [];
+
+        const rowsH3 = document.querySelectorAll('.widgettitle'); // Corrected selector
+        rowsH3.forEach((row) => {
+            const H3Element = row.querySelector('span'); // Corrected selector
+            const H3 = H3Element ? H3Element.innerText.trim() : '';
+            teamData.push({ H3 });
+        });
+
         const rows = document.querySelectorAll('table.ranking-tab tbody tr');
 
         rows.forEach((row, index) => {
@@ -42,29 +67,54 @@ async function scrapAndSaveData(link) {
         return teamData;
     });
     await browser.close();
-    // Ajoutez le console.log ici
-    const updatedHtmlContent = `<tbody id="teamTableBody">${generateTableRows(equipeData)}</tbody>`;
-    console.log(updatedHtmlContent);
 
-    return equipeData;
+
+    console.log(equipeData, equipeData.length, equipeData[1].name, equipeData[0].H3, equipeData[2].name);
+    let i = 0;
+    console.log(equipeData[i + 1].name);
+
+
+
+    for (let i = 0; i < equipeData.length; i++) {
+        const selectsql = `SELECT t.id as team_id, m.id as match_type_id FROM team t INNER JOIN match_type m on t.match_type = m.id WHERE t.name = '${equipeData[i + 1]?.name}' AND m.name = '${equipeData[0]?.H3}'`;
+
+        conn.query(selectsql, (err, result) => {
+            if (err) throw err;
+
+            if (result && result[0]) {  // Vérifie si result est défini et a au moins un élément
+                const sql = `INSERT INTO ranking (id_team, id_match_type, points, match_played, victory, draw, defeat, forfait, goal_scored, goal_conceded, penalties, goal_difference) VALUES ('${result[0]?.team_id}', '${result[0]?.match_type_id}', '${equipeData[i + 1]?.pts}', '${equipeData[i + 1]?.jour}', '${equipeData[i + 1]?.victoire}', '${equipeData[i + 1]?.nul}', '${equipeData[i + 1]?.defaite}', '${equipeData[i + 1]?.forfait}', '${equipeData[i + 1]?.bp}', '${equipeData[i + 1]?.bc}', '${equipeData[i + 1]?.penaliter}', '${equipeData[i + 1]?.dif}')`;
+
+                conn.query(sql, (err, result) => {
+                    if (err) throw err;
+                    console.log(`Valeur insérée : ${equipeData[i + 1]?.name}, ${equipeData[i + 1]?.pts}, ${equipeData[i + 1]?.jour}, ${equipeData[i + 1]?.victoire}, ${equipeData[i + 1]?.nul}, ${equipeData[i + 1]?.defaite}, ${equipeData[i + 1]?.forfait}, ${equipeData[i + 1]?.bp}, ${equipeData[i + 1]?.bc}, ${equipeData[i + 1]?.penaliter}, ${equipeData[i + 1]?.dif}`);
+
+                    // Vérifiez s'il s'agit de la dernière itération, puis fermez la connexion
+                    if (i === equipeData.length - 1) {
+                        conn.end();
+                    }
+                });
+            } else {
+                console.error('Aucun résultat trouvé pour la requête.');
+                // Gérer le cas où aucun résultat n'est trouvé (peut-être log, afficher un message, etc.)
+            }
+        });
+    }
 }
+/* equipe b */
 
-function generateTableRows(data) {
-    return data.map(entry => `
-        <tr>
-            <td>${entry.name}</td>
-            <td>${entry.pts}</td>
-            <td>${entry.jour}</td>
-            <td>${entry.victoire}</td>
-            <td>${entry.nul}</td>
-            <td>${entry.defaite}</td>
-            <td>${entry.forfait}</td>
-            <td>${entry.bp}</td>
-            <td>${entry.bc}</td>
-            <td>${entry.penaliter}</td>
-            <td>${entry.dif}</td>
-        </tr>
-    `).join('');
-}
+link = "https://footorne.fff.fr/competitions?tab=ranking&id=414009&phase=1&poule=3&type=ch"
 
-module.exports = { scrapAndSaveData, generateTableRows };
+/* equipe a */
+
+/* link = "https://footorne.fff.fr/competitions?tab=ranking&id=414007&phase=1&poule=2&type=ch" */
+
+scrapAndSaveData(link);
+/* module.exports = { scrapAndSaveData }; */
+
+
+
+
+
+// changer la recuperation du titre du championnant et de la division
+// faire en sorte que le classement soit mis à jour automatiquement et que le classement soit affiché sur la page classement_calendrier.html
+
