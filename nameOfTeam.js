@@ -17,10 +17,11 @@ conn.connect((err) => {
     console.log('Connecté à la base de données MySQL');
 });
 
-async function scrapAndSaveData(link) {
+async function scrapAndSaveData(link, championnat) {
     const browser = await puppeteer.launch({ headless: "new" });
     const page = await browser.newPage();
     await page.goto(link);
+    console.log(link, championnat);
 
     const equipeData = await page.evaluate(() => {
         const teamData = [];
@@ -36,15 +37,16 @@ async function scrapAndSaveData(link) {
 
 
                 teamData.push({ name });
+                console.log(name);
             }
         });
         return teamData;
     });
     await browser.close();
 
-    console.log(equipeData, equipeData.length, equipeData[0].name);
+    console.log(equipeData, equipeData.length);
     for (let i = 0; i < equipeData.length; i++) {
-        const sql = `INSERT INTO team (name, match_type) VALUES ('${equipeData[i].name}', 4)`;
+        const sql = `INSERT INTO team (name, match_type) VALUES ('${equipeData[i].name}', ${championnat})`;
         conn.query(sql, (err, result) => {
             if (err) throw err;
             console.log(`Valeur insérée : ${equipeData[i].name}`);
@@ -55,9 +57,11 @@ async function scrapAndSaveData(link) {
 }
 
 /* equipe a */
-/* link = "https://footorne.fff.fr/recherche-clubs?subtab=ranking&tab=resultats&scl=192049&competition=414007&stage=1&group=2&label=Départemental%203" */
+/* link = "https://footorne.fff.fr/competitions?tab=ranking&id=414007&phase=1&poule=2&type=ch" 
+championnat = 3*/
 
 /* equipe b */
-link = "https://footorne.fff.fr/recherche-clubs?subtab=ranking&tab=resultats&scl=192049&competition=414009&stage=1&group=3&label=Départemental%204"
+link = "https://footorne.fff.fr/competitions?tab=ranking&id=414009&phase=1&poule=3&type=ch"
+championnat = 4
 
-scrapAndSaveData(link)
+scrapAndSaveData(/* "https://footorne.fff.fr/competitions?tab=ranking&id=414009&phase=1&poule=3&type=ch", 4 */ "https://footorne.fff.fr/competitions?tab=ranking&id=414007&phase=1&poule=2&type=ch", 3)

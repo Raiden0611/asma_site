@@ -17,20 +17,13 @@ conn.connect((err) => {
     console.log('Connecté à la base de données MySQL');
 });
 
-async function scrapAndSaveData(link) {
-    const browser = await puppeteer.launch({ headless: "new" });
+async function scrapAndSaveData(link, championnat) {
+    const browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
     await page.goto(link);
 
     const equipeData = await page.evaluate(() => {
         const teamData = [];
-
-        const rowsH3 = document.querySelectorAll('.widgettitle'); // Corrected selector
-        rowsH3.forEach((row) => {
-            const H3Element = row.querySelector('span'); // Corrected selector
-            const H3 = H3Element ? H3Element.innerText.trim() : '';
-            teamData.push({ H3 });
-        });
 
         const rows = document.querySelectorAll('table.ranking-tab tbody tr');
 
@@ -69,14 +62,14 @@ async function scrapAndSaveData(link) {
     await browser.close();
 
 
-    console.log(equipeData, equipeData.length, equipeData[1].name, equipeData[0].H3, equipeData[2].name);
+    console.log(equipeData, equipeData.length, equipeData[1]?.name, equipeData[2]?.name);
     let i = 0;
-    console.log(equipeData[i + 1].name);
+    console.log(equipeData[i + 1]?.name);
 
 
 
     for (let i = 0; i < equipeData.length; i++) {
-        const selectsql = `SELECT t.id as team_id, m.id as match_type_id FROM team t INNER JOIN match_type m on t.match_type = m.id WHERE t.name = '${equipeData[i + 1]?.name}' AND m.name = '${equipeData[0]?.H3}'`;
+        const selectsql = `SELECT t.id as team_id, m.id as match_type_id FROM team t INNER JOIN match_type m on t.match_type = m.id WHERE t.name = '${equipeData[i + 1]?.name}' AND m.name = '${championnat}'`;
 
         conn.query(selectsql, (err, result) => {
             if (err) throw err;
@@ -102,13 +95,15 @@ async function scrapAndSaveData(link) {
 }
 /* equipe b */
 
-link = "https://footorne.fff.fr/competitions?tab=ranking&id=414009&phase=1&poule=3&type=ch"
+/* link = "https://footorne.fff.fr/competitions?tab=ranking&id=414009&phase=1&poule=3&type=ch"
+championnat = "Départemental 4 Poule B" */
 
 /* equipe a */
+link = "https://footorne.fff.fr/competitions?tab=ranking&id=414007&phase=1&poule=2&type=ch"
+championnat = "Départemental 3 Poule C"
 
-/* link = "https://footorne.fff.fr/competitions?tab=ranking&id=414007&phase=1&poule=2&type=ch" */
 
-scrapAndSaveData(link);
+scrapAndSaveData(link, championnat);
 /* module.exports = { scrapAndSaveData }; */
 
 

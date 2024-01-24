@@ -18,7 +18,7 @@ conn.connect((err) => {
 });
 
 async function scrapAndSaveDataCalendar(link) {
-    const browser = await puppeteer.launch({ headless: "new" });
+    const browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
     await page.goto(link);
 
@@ -37,6 +37,11 @@ async function scrapAndSaveDataCalendar(link) {
             const groupdate = dateElement ? dateElement.innerText.trim() : '';
             const timetable1 = timetable1Element ? timetable1Element.innerText.trim() : '';
             const timetable2 = timetable2Element ? timetable2Element.innerText.trim() : '';
+
+            let team1 = '';
+            let team2 = '';
+
+            team1 = timetable1.replace('  ', ' ');
 
             let championnat = '';
             let date = '';
@@ -74,6 +79,8 @@ async function scrapAndSaveDataCalendar(link) {
                 championnat = 'Erreur';
                 date = 'Erreur';
             }
+
+
 
 
 
@@ -145,7 +152,8 @@ async function scrapAndSaveDataCalendar(link) {
 
     /* return calendarData; */
     console.log(calendarData, calendarData.length, calendarData[0].championnat, calendarData[0].date, calendarData[0].timetable1, calendarData[0].timetable2, calendarData[0].score1, calendarData[0].score2);
-    let id_team_home = '';
+
+    /* let id_team_home = '';
     let id_team_away = '';
     let match_type_id = '';
 
@@ -165,19 +173,19 @@ async function scrapAndSaveDataCalendar(link) {
             match_type_id = result[1]?.match_type_id;
             console.log(id_team_away);
             console.log(match_type_id);
-        });
-
-        /* const sql = `INSERT INTO calendar (id_team_home, id_team_away, id_match_type, date, score_home_team, score_away_team ) VALUES ('${id_team_home}', '${id_team_away}', '${match_type_id}', '${calendarData[i]?.date}', '${calendarData[i]?.score1}', '${calendarData[i]?.score2}')`;
-        conn.query(sql, (err, result) => {
-            if (err) throw err;
-            console.log(`Valeur insérée : ${id_team_home}, ${id_team_away}, ${match_type_id}, ${calendarData[i]?.date}, ${calendarData[i]?.score1}, ${calendarData[i]?.score2})`);
-
-            // Vérifiez s'il s'agit de la dernière itération, puis fermez la connexion
-            if (i === calendarData.length) {
-                conn.end();
-            }
         }); */
-    }
+
+    /* const sql = `INSERT INTO calendar (id_team_home, id_team_away, id_match_type, date, score_home_team, score_away_team ) VALUES ('${id_team_home}', '${id_team_away}', '${match_type_id}', '${calendarData[i]?.date}', '${calendarData[i]?.score1}', '${calendarData[i]?.score2}')`;
+    conn.query(sql, (err, result) => {
+        if (err) throw err;
+        console.log(`Valeur insérée : ${id_team_home}, ${id_team_away}, ${match_type_id}, ${calendarData[i]?.date}, ${calendarData[i]?.score1}, ${calendarData[i]?.score2})`);
+
+        // Vérifiez s'il s'agit de la dernière itération, puis fermez la connexion
+        if (i === calendarData.length) {
+            conn.end();
+        }
+    }); */
+}
 }
 
 /* module.exports = { scrapAndSaveDataCalendar, generateTableRows }; */
