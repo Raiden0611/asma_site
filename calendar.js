@@ -18,7 +18,7 @@ conn.connect((err) => {
 });
 
 async function scrapAndSaveDataCalendar(link) {
-    const browser = await puppeteer.launch({ headless: true });
+    const browser = await puppeteer.launch({ headless: 'new' });
     const page = await browser.newPage();
     await page.goto(link);
 
@@ -38,10 +38,13 @@ async function scrapAndSaveDataCalendar(link) {
             const timetable1 = timetable1Element ? timetable1Element.innerText.trim() : '';
             const timetable2 = timetable2Element ? timetable2Element.innerText.trim() : '';
 
-            let team1 = '';
-            let team2 = '';
 
-            team1 = timetable1.replace('  ', ' ');
+            let home_team = '';
+            let away_team = '';
+
+            home_team = timetable1.replace(/\s+/g, ' ');
+            away_team = timetable2.replace(/\s+/g, ' ');
+
 
             let championnat = '';
             let date = '';
@@ -55,7 +58,7 @@ async function scrapAndSaveDataCalendar(link) {
                 championnat = championnat.replace(/\n/g, ' ');
 
                 date = date.replace('-', '');
-                date = date.replace('  ', ' ');
+                date = date.replace(/\s+/g, ' ');
                 date = date.split(' ');
 
                 const moisMap = {
@@ -141,7 +144,7 @@ async function scrapAndSaveDataCalendar(link) {
                 score2 = '';
             }
 
-            timetableData.push({ championnat, date, timetable1, timetable2, score1, score2 });
+            timetableData.push({ championnat, date, home_team, away_team, score1, score2 });
         });
         return timetableData;
     });
@@ -151,52 +154,63 @@ async function scrapAndSaveDataCalendar(link) {
     /*  console.log(updatedHtmlContent); */
 
     /* return calendarData; */
-    console.log(calendarData, calendarData.length, calendarData[0].championnat, calendarData[0].date, calendarData[0].timetable1, calendarData[0].timetable2, calendarData[0].score1, calendarData[0].score2);
+    console.log(calendarData, calendarData.length);
 
-    /* let id_team_home = '';
+
+    let id_team_home = '';
     let id_team_away = '';
     let match_type_id = '';
 
-    for (let i = 0; i < calendarData.length; i++) {
-
-        const team1 = `SELECT t.id as team_id, m.id as match_type_id FROM team t INNER JOIN match_type m on t.match_type = m.id WHERE t.name = '${calendarData[i].timetable1}' AND m.name = '${calendarData[0].championnat}'`;
-        conn.query(team1, (err, result) => {
-            if (err) throw err;
-            id_team_home = result[0]?.team_id;
-            console.log(id_team_home);
+    const team1Promises = calendarData.map(async (item) => {
+        const team1Query = `SELECT t.id as team_id, m.id as match_type_id FROM team t INNER JOIN match_type m ON t.match_type = m.id WHERE t.name = '${item.home_team}' AND m.name = '${item.championnat}'`;
+        return new Promise((resolve, reject) => {
+            conn.query(team1Query, (err, result) => {
+                if (err) reject(err);
+                item.id_team_home = result[0]?.team_id;
+                resolve(item);
+            });
         });
+    });
 
-        const team2 = `SELECT t.id as team_id, m.id as match_type_id FROM team t INNER JOIN match_type m on t.match_type = m.id WHERE t.name = '${calendarData[i].timetable2}' AND m.name = '${calendarData[0].championnat}'`;
-        conn.query(team2, (err, result) => {
+    const team2Promises = calendarData.map(async (item) => {
+        const team2Query = `SELECT t.id as team_id, m.id as match_type_id FROM team t INNER JOIN match_type m ON t.match_type = m.id WHERE t.name = '${item.away_team}' AND m.name = '${item.championnat}'`;
+        return new Promise((resolve, reject) => {
+            conn.query(team2Query, (err, result) => {
+                if (err) reject(err);
+                item.id_team_away = result[0]?.team_id;
+                item.match_type_id = result[0]?.match_type_id;
+                resolve(item);
+            });
+        });
+    });
+
+    const team1Results = await Promise.all(team1Promises);
+    const team2Results = await Promise.all(team2Promises);
+
+    for (let i = 0; i < calendarData.length; i++) {
+        // ... (votre code précédent)
+
+        const sql = `INSERT INTO calendar (id_team_home, id_team_away, id_match_type, date, score_home_team, score_away_team) VALUES ('${calendarData[i].id_team_home}', '${calendarData[i].id_team_away}', '${calendarData[i].match_type_id}', '${calendarData[i]?.date}', '${calendarData[i]?.score1}', '${calendarData[i]?.score2}')`;
+        conn.query(sql, (err, result) => {
             if (err) throw err;
-            id_team_away = result[0]?.team_id;
-            match_type_id = result[1]?.match_type_id;
-            console.log(id_team_away);
-            console.log(match_type_id);
-        }); */
+            console.log(`Valeur insérée : ${calendarData[i].id_team_home}, ${calendarData[i].id_team_away}, ${calendarData[i].match_type_id}, ${calendarData[i]?.date}, ${calendarData[i]?.score1}, ${calendarData[i]?.score2}`);
 
-    /* const sql = `INSERT INTO calendar (id_team_home, id_team_away, id_match_type, date, score_home_team, score_away_team ) VALUES ('${id_team_home}', '${id_team_away}', '${match_type_id}', '${calendarData[i]?.date}', '${calendarData[i]?.score1}', '${calendarData[i]?.score2}')`;
-    conn.query(sql, (err, result) => {
-        if (err) throw err;
-        console.log(`Valeur insérée : ${id_team_home}, ${id_team_away}, ${match_type_id}, ${calendarData[i]?.date}, ${calendarData[i]?.score1}, ${calendarData[i]?.score2})`);
-
-        // Vérifiez s'il s'agit de la dernière itération, puis fermez la connexion
-        if (i === calendarData.length) {
-            conn.end();
-        }
-    }); */
+            // Vérifiez s'il s'agit de la dernière itération, puis fermez la connexion
+            if (i === calendarData.length - 1) {
+                conn.end();
+            }
+        });
+    }
 }
-}
-
 /* module.exports = { scrapAndSaveDataCalendar, generateTableRows }; */
 
 
 /* equipe b */
-const link = "https://footorne.fff.fr/recherche-clubs?subtab=calendar&tab=resultats&scl=192049&competition=414009&stage=1&group=3&label=Départemental%204%20POULE%20C"
+/* link = "https://footorne.fff.fr/recherche-clubs?subtab=calendar&tab=resultats&scl=192049&competition=414009&stage=1&group=3&label=Départemental%204%20POULE%20C" */
 
 /* equipe a */
 /* link = "https://footorne.fff.fr/recherche-clubs?subtab=calendar&tab=resultats&scl=192049&competition=414007&stage=1&group=2&label=Départemental%203%20POULE%20B" */
 
-scrapAndSaveDataCalendar(link);
+scrapAndSaveDataCalendar("https://footorne.fff.fr/recherche-clubs?subtab=calendar&tab=resultats&scl=192049&competition=414007&stage=1&group=2&label=Départemental%203%20POULE%20B");
 
 
