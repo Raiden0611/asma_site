@@ -291,3 +291,190 @@ body {
         padding-top: 30px;
     }
 }
+
+
+.container-contact {
+    background-color: pink;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+}
+
+.container-carte-dos {
+    width: 350px;
+    height: 550px;
+    /* background-color: #DC143C; */
+    background: linear-gradient(45deg, #333, #DC143C);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 10px outset #A9A9A9;
+    border-radius: 15px;
+    padding: 10px;
+    margin-top: 20px;
+}
+
+.dos-carte {
+    margin: 13px;
+}
+
+.carte-dos {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.carte-img {
+    text-align: center;
+
+}
+
+.carte-img img {
+    width: 150px;
+    height: 139px;
+}
+
+
+
+.container-contact-president.hidden {
+    display: flex;
+    background-color: blue;
+    opacity: 0;
+    /* Masquez la carte président avec une opacité de 0 */
+    transition: opacity 0.5s ease;
+    /* Ajoutez une transition pour l'opacité */
+}
+
+.container-carte-dos.hidden {
+    opacity: 0;
+    /* Masquez la carte dos avec une opacité de 0 */
+    transition: opacity 0.5s ease;
+    /* Ajoutez une transition pour l'opacité */
+}
+
+
+
+
+.container-contact-president {
+    width: 350px;
+    height: 550px;
+    /* background-color: #DC143C; */
+    background: linear-gradient(45deg, #333, #DC143C);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 10px inset #A9A9A9;
+    border-radius: 15px;
+    padding: 10px;
+    margin-top: 20px;
+}
+
+.carte-top-a {
+    text-align: left;
+    margin-bottom: auto;
+    font-style: oblique 90deg;
+}
+
+.carte-bot-a {
+    margin-top: auto;
+    text-align: end;
+    transform: rotate(180deg);
+    font-style: oblique 90deg;
+}
+
+.info-contact-president {
+    /* visibility: hidden; */
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-bottom: 130px;
+}
+
+.name-contact-president {
+    /* visibility: hidden; */
+    text-align: center;
+    padding-bottom: 130px;
+
+}
+
+.mobile-contact-president a {
+    text-decoration: none;
+    color: white;
+}
+
+.mobile-contact-president a:hover {
+    text-decoration: underline;
+}
+
+.mobile-contact-president a:visited {
+    color: pink;
+}
+
+.email-contact-president a {
+    text-decoration: none;
+    color: white;
+}
+
+.email-contact-president a:hover {
+    text-decoration: underline;
+}
+
+.email-contact-president a:visited {
+    color: pink;
+}
+
+
+.carte-name {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+
+}
+
+.mobile-contact-president {
+    padding-bottom: 40px;
+
+}
+
+.carte-info-contact {
+    font-size: 16px;
+    font-weight: bold;
+    color: #A9A9A9;
+    text-decoration: underline;
+}
+
+.email-contact-president {}
+
+.carte-email {}
+
+
+
+.container-contact-coach {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #DC143C;
+}
+
+.container-contact-coach-a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: black;
+
+
+}
+
+.container-contact-coach-b {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: black;
+}
