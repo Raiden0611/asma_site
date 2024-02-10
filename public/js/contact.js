@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function () {
+/* document.addEventListener('DOMContentLoaded', function () {
 
 
     // Sélectionnez toutes la cartes
@@ -34,6 +34,31 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         );
     })
-});
+}); */
 
+
+document.addEventListener('DOMContentLoaded', function () {
+    const containers = document.querySelectorAll('.container-carte-president');
+    containers.forEach(container => {
+        const dos = container.querySelector('.container-carte-dos');
+        const president = container.querySelector('.container-contact-president');
+        dos.style.display = 'flex';
+        president.style.display = 'none';
+    });
+
+    containers.forEach(container => {
+        const dos = container.querySelector('.container-carte-dos');
+        const president = container.querySelector('.container-contact-president');
+
+        container.addEventListener('click', () => {
+            const display = dos.style.display;
+            dos.classList.toggle('flipped');
+            president.classList.toggle('flipped');
+            setTimeout(() => {
+                dos.style.display = display === 'flex' ? 'none' : 'flex';
+                president.style.display = display === 'flex' ? 'flex' : 'none';
+            }, 500); // 500ms est la durée de transition définie dans le CSS
+        });
+    });
+});
 
