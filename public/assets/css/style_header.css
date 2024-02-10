@@ -163,3 +163,55 @@ header {
     background: #DC143C;
     color: #fff;
 }
+
+@media screen and (min-width: 1080px) {
+    .toggle {
+        display: none;
+    }
+
+    header {
+        padding: 20px 40px;
+    }
+
+    .navigation {
+        position: relative;
+        height: 100%;
+        width: auto;
+        flex-direction: row;
+        display: flex;
+    }
+
+    .ul-header {
+        position: relative;
+        list-style: none;
+        display: flex;
+        flex-direction: row;
+    }
+
+    .ul-header .li-header {
+        position: relative;
+        list-style: none;
+        transition: 0.5s;
+        visibility: visible;
+        opacity: 1;
+        transform: translateX(0px);
+    }
+
+    .ul-header .li-header a {
+        position: relative;
+        text-decoration: none;
+        display: block;
+        padding: 10px 20px;
+        height: 50px;
+        background: #333;
+        color: #fff;
+        width: auto;
+        transition: 0.5s;
+    }
+
+    .ul-header .li-header a:hover {
+        background: #DC143C;
+        color: #fff;
+    }
+
+}
