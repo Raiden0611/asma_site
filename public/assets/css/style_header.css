@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
 
+
 .btn {
     cursor: pointer;
     position: relative;
@@ -54,12 +55,14 @@
 
 
 
+
+
 /* Styles pour les écrans de taille normale */
 header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 40PX;
+    padding: 50px;
     /* background-color: #24262b; */
     background: linear-gradient(45deg, #24262b, #DC143C);
     color: #FFF;
@@ -72,6 +75,7 @@ header {
     }
 
     .toggle {
+        margin-top: 10px;
         position: relative;
         top: 0;
         left: 0;
@@ -85,6 +89,10 @@ header {
         color: #FFF;
         padding: 5px 20px;
 
+    }
+
+    .btn {
+        font-size: 24px;
     }
 
 }

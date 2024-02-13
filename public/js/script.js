@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
             // Vérifiez la largeur de l'écran pour changer le texte du titre
-            var divElement = document.querySelector('.titre');
+            var divElement = document.querySelector('.btn');
 
             function checkScreenWidth() {
                 var screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
