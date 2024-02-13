@@ -16,8 +16,6 @@ server.get('/contact', (req, res) => {
   res.sendFile(filePath);
 });
 
-
-
 server.get('/classement', async (req, res) => {
   // Utilisez path.join pour obtenir le chemin complet du fichier
   const filePath = path.join(__dirname, 'public', 'classement_calendrier.html');

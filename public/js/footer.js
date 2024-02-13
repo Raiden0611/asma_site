@@ -1,4 +1,3 @@
-
 // Charger le contenu commun
 fetch('footer.html')
     .then(response => response.text())
