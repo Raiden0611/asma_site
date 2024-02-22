@@ -53,17 +53,11 @@
     }
 }
 
-
-
-
-
-/* Styles pour les écrans de taille normale */
 header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 50px;
-    /* background-color: #24262b; */
     background: linear-gradient(45deg, #24262b, #DC143C);
     color: #FFF;
 }
