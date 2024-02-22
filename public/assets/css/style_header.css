@@ -114,6 +114,7 @@ header {
     align-items: center;
     color: #fff;
     padding: 5px 20px;
+    border-radius: 5px;
 
 }
 
@@ -179,14 +180,14 @@ header {
     transition: 0.5s;
     visibility: hidden;
     opacity: 0;
-    transform: translateX(-150px);
+    transform: translateY(-20px);
     transition-delay: calc(0.1s * var(--i));
 }
 
 .navigation.active .ul-header .li-header {
     visibility: visible;
     opacity: 1;
-    transform: translateX(0px);
+    transform: translateY(0px);
 
 }
 
@@ -200,6 +201,8 @@ header {
     color: #fff;
     width: 100%;
     transition: 0.5s;
+    border-radius: 5px;
+    margin: 5px 0;
 }
 
 .ul-header .li-header a:hover {
